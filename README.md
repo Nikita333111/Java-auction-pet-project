@@ -33,7 +33,7 @@
     logging.level.com.example.registrationlogindemo=INFO
     logging.config=classpath:logback-spring.xml
    
-3. Требования по которым создавался проект можно увидеть [здесь](.requirements/ТЗ для backend-разработчика.html).
+3. Требования по которым создавался проект можно увидеть [здесь](requirements/ТЗ для backend-разработчика.html).
 4. Краткая визуализация страниц проекта:
     лог\рег с spring security (доступ к страницам и ролями)
    <img src="https://github.com/Nikita333111/Java-auction-pet-project/blob/master/requirements/project%20presentation/login.png" height="350" alt="конфигурация бд">
