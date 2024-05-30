@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Личный кабинет</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Регистрация</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br /><br />
+<div class="container">
+    <div class="row">
+        <h1 class="text-center"> Auction </h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Карточка объявления 1 -->
+        <div class="col-md-4" th:each="adL, adIndex : ${adList}">
+            <div class="card mb-4">
+                <div th:id="'carouselExampleIndicators-' + ${adIndex.index}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="image, iterStat : ${adL.images}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active'">
+                            <img th:src="${image}" class="d-block w-100" style="width: 300px; height: 200px; object-fit: cover;" alt="...">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" th:href="'#carouselExampleIndicators-' + ${adIndex.index}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" th:href="'#carouselExampleIndicators-' + ${adIndex.index}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${adL.title}">Название объявления 1</h5>
+                    <p class="card-text" th:text="'Цена: $' + ${adL.minPrice}">Цена: $100</p>
+                    <p class="card-text" th:text="'Текущая цена: $' + ${adL.currentPrice}">Текущая цена: $100</p>
+                    <div class="countdown" th:if="${adL.auctionEndTime}" th:data-end-time="${adL.auctionEndTime.time}"> Таймер </div>
+                </div>
+                <div class="card-footer">
+                    <!-- Всплывающая подсказка с описанием -->
+                    <small class="text-muted" th:text="${adL.description}" data-toggle="tooltip" data-placement="top" title="Описание объявления 1">Наведите для описания</small>
+                    <form th:action="@{/bid/{id}(id=${adL.id})}" method="post">
+                        <div class="form-group">
+                            <input th:disabled="${adL.isOwner()}" type="number" class="form-control" name="bidPrice" placeholder="Введите вашу цену" th:min="${adL.currentPrice + 1}" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary"
+                                th:disabled="${adL.isOwner()}">
+                            Сделать ставку
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function (){
+        $('.countdown').each(function (){
+            var endTime = parseInt($(this).data('end-time'));
+            var  countdownElem = $(this);
+
+            function updateCountdown() {
+                var now = new Date().getTime();
+                var distance = endTime - now;
+
+                if(distance < 0) {
+                    countdownElem.text('Аукцион завершен');
+                    return;
+                }
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElem.text(days + "д " + hours + "ч " + minutes + "м " + seconds + "c ");
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    });
+</script>
+
+<!-- Подключение Bootstrap JS (необязательно, если не используются компоненты JavaScript) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+</body>
+</html>
