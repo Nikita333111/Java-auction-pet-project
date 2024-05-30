@@ -33,4 +33,13 @@
     logging.level.com.example.registrationlogindemo=INFO
     logging.config=classpath:logback-spring.xml
    
+3. Требования по которым создавался проект указаны в директории requirements
+4. Краткая визуализация страниц проекта:
+    лог\рег с spring security (доступ к страницам и ролями) 
+   ![Alt text](./requirements/project presentation/login.png)
+   Профиль с списком своих объявлений, приветстием, кнопкой создания объявления, кнопкой удаления объявления.
+   ![Alt text](./requirements/project presentation/profile.png)
+   Список всех объявлений.
+   ![Alt text](./requirements/project presentation/ad-list.png)
+
 
