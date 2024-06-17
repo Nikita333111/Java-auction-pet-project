@@ -1,0 +1,18 @@
+spring.application.name=demo
+
+#DB conn
+spring.datasource.url=jdbc:postgresql://localhost/dbname
+spring.datasource.username=username
+spring.datasource.password=password
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+
+
+auction.duration.minutes=1
+
+logging.file.name=logs/app.log
+logging.level.com.example.registrationlogindemo=INFO
+logging.config=classpath:logback-spring.xml
